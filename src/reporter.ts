@@ -262,7 +262,7 @@ export class RPReporter implements Reporter {
   }
 
   onBegin(): void {
-    const { launch, description, attributes, skippedIssue, rerun, rerunOf, mode } = this.config;
+    const { launch, description, attributes, skippedIssue, rerun, rerunOf, mode, id } = this.config;
     const systemAttributes: Attribute[] = getSystemAttributes(skippedIssue);
 
     const startLaunchObj: StartLaunchObjType = {
@@ -275,6 +275,7 @@ export class RPReporter implements Reporter {
       rerunOf,
       mode: mode || LAUNCH_MODES.DEFAULT,
     };
+    if (id) startLaunchObj.id = id;
     const { tempId, promise } = this.client.startLaunch(startLaunchObj);
     this.addRequestToPromisesQueue(promise, 'Failed to start launch.');
     this.launchId = tempId;
