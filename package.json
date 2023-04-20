@@ -1,6 +1,6 @@
 {
-  "name": "@reportportal/agent-js-playwright",
-  "version": "5.0.11",
+  "name": "agent-js-playwright-updated",
+  "version": "1.0.0",
   "description": "Agent to integrate Playwright with ReportPortal.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -41,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reportportal/agent-js-playwright.git"
+    "url": "git+https://github.com/Dookiee/agent-js-playwright.git"
   },
   "author": "ReportPortal.io",
   "license": "Apache-2.0",
