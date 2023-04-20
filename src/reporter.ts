@@ -556,24 +556,26 @@ export class RPReporter implements Reporter {
 
   async onEnd(): Promise<void> {
     // Force finish unfinished suites in case of interruptions
-    if (this.suites.size > 0) {
-      this.suites.forEach((value, key) => {
-        this.suites.set(key, {
-          ...value,
-          testCount: 0,
-          descendants: [],
+    if (!Object.keys(this.config).includes('id')) {
+      if (this.suites.size > 0) {
+        this.suites.forEach((value, key) => {
+          this.suites.set(key, {
+            ...value,
+            testCount: 0,
+            descendants: [],
+          });
         });
+        this.finishSuites();
+      }
+      const { promise } = this.client.finishLaunch(this.launchId, {
+        endTime: this.client.helpers.now(),
+        ...(this.customLaunchStatus && { status: this.customLaunchStatus }),
       });
-      this.finishSuites();
+      this.isLaunchFinishSend = true;
+      this.addRequestToPromisesQueue(promise, 'Failed to finish launch.');
+      await Promise.all(this.promises);
+      this.launchId = null;
     }
-    const { promise } = this.client.finishLaunch(this.launchId, {
-      endTime: this.client.helpers.now(),
-      ...(this.customLaunchStatus && { status: this.customLaunchStatus }),
-    });
-    this.isLaunchFinishSend = true;
-    this.addRequestToPromisesQueue(promise, 'Failed to finish launch.');
-    await Promise.all(this.promises);
-    this.launchId = null;
   }
 
   printsToStdio(): boolean {
