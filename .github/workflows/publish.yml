@@ -14,8 +14,7 @@
 name: publish
 
 on:
-  repository_dispatch:
-    types: [version-released]
+  workflow_dispatch:
 
 jobs:
   build:
